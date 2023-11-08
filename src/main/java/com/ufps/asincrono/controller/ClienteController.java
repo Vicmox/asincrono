@@ -7,6 +7,7 @@ import com.ufps.asincrono.servicio.ClienteService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ public class ClienteController {
 
     @Autowired
     ClienteRepository clienteRepository;
-    
+
     @Autowired
     ClienteService clienteServicio;
 
@@ -40,12 +41,12 @@ public class ClienteController {
     }
 
     @GetMapping("cliente/{id}")
-    public String edadCuentaDelCliente (@PathVariable Long id) {
-    	Optional<Cliente> elCliente = this.clienteServicio.buscar(id);
-    	long diasDeCuenta = this.clienteServicio.diasDeRegistro(elCliente.get());
-    	return "";
+    public Long edadCuentaDelCliente(@PathVariable Long id) {
+        Optional<Cliente> elCliente = this.clienteServicio.buscar(id);
+        long diasDeCuenta = this.clienteServicio.diasDeRegistro(elCliente.get());
+        return diasDeCuenta;
     }
-    
+
     @PutMapping("/{id}")
     public Cliente putClientebyId(@PathVariable Long id, @RequestBody Cliente cliente) {
 
@@ -58,7 +59,6 @@ public class ClienteController {
             clienteReturn.setNombre(cliente.getNombre());
             clienteReturn.setApellido(cliente.getApellido());
             clienteReturn.setEmail(cliente.getEmail());
-
 
             clienteRepository.save(clienteReturn);
 

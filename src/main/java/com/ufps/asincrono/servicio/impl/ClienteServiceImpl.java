@@ -11,27 +11,35 @@ import com.ufps.asincrono.dto.ClienteDTO;
 import com.ufps.asincrono.entity.Cliente;
 import com.ufps.asincrono.repository.ClienteRepository;
 import com.ufps.asincrono.servicio.ClienteService;
+import java.util.Date;
+import org.springframework.scheduling.annotation.Async;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-	@Autowired
-	ClienteRepository clienteRepositorio;
-	
-	@Override
-	public Cliente guardar(ClienteDTO clienteDTO) {
-		Cliente cliente = new Cliente(clienteDTO.getNombre(),clienteDTO.getApellido(), clienteDTO.getEmail(), clienteDTO.getFecha_inscripcion());
-		return clienteRepositorio.save(cliente);
-	}
+    @Autowired
+    ClienteRepository clienteRepositorio;
 
-	@Override
-	public Optional<Cliente> buscar(Long id) {
-		return clienteRepositorio.findById(id);
-	}
+    @Override
+    public Cliente guardar(ClienteDTO clienteDTO) {
+        Cliente cliente = new Cliente(clienteDTO.getNombre(), clienteDTO.getApellido(), clienteDTO.getEmail(), clienteDTO.getFecha_inscripcion());
+        return clienteRepositorio.save(cliente);
+    }
 
-	@Override
-	public long diasDeRegistro(Cliente cliente) {
-		return ChronoUnit.DAYS.between(cliente.getFecha_inscripcion(), LocalDate.now());
-	}
+    @Override
+    public Optional<Cliente> buscar(Long id) {
+        return clienteRepositorio.findById(id);
+    }
+
+ 
+    @Override
+    public long diasDeRegistro(Cliente cliente) {
+        return ChronoUnit.DAYS.between(cliente.getFecha_inscripcion(), LocalDate.now());
+    }
+
+    @Override
+    public Date findByFechaDeRegistro(Cliente cliente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }
