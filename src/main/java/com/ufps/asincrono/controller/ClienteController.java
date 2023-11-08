@@ -2,6 +2,8 @@ package com.ufps.asincrono.controller;
 
 import com.ufps.asincrono.entity.Cliente;
 import com.ufps.asincrono.repository.ClienteRepository;
+import com.ufps.asincrono.servicio.ClienteService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ClienteController {
 
     @Autowired
     ClienteRepository clienteRepository;
+    
+    @Autowired
+    ClienteService clienteServicio;
 
     @GetMapping("/usuarios")
     public List<Cliente> getClienteAll() {
@@ -34,6 +39,13 @@ public class ClienteController {
 
     }
 
+    @GetMapping("cliente/{id}")
+    public String edadCuentaDelCliente (@PathVariable Long id) {
+    	Optional<Cliente> elCliente = this.clienteServicio.buscar(id);
+    	long diasDeCuenta = this.clienteServicio.diasDeRegistro(elCliente.get());
+    	return "";
+    }
+    
     @PutMapping("/{id}")
     public Cliente putClientebyId(@PathVariable Long id, @RequestBody Cliente cliente) {
 
